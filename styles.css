@@ -588,7 +588,7 @@ main {
 .selection-cursor {
 	position: absolute;
 	right: -0.9em;
-	bottom: -0.55em;
+	bottom: -1.2rem; /* rem, not em: must fit in the 1.8rem gap above .lead */
 	font-style: normal;
 	opacity: 0;
 	animation: cursor-in 1s 1.3s var(--ease) forwards;
