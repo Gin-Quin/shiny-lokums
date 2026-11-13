@@ -1,0 +1,986 @@
+<!doctype html>
+<html lang="fr">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Digital Loukoum · Matthieu Gindre, développement logiciel sur mesure</title>
+		<meta
+			name="description"
+			content="Digital Loukoum, le studio de Matthieu Gindre&nbsp;: SaaS clé en main, apps mobiles et de bureau, collaboration temps réel, performance, architecture et agents IA. 11&nbsp;ans de code."
+		/>
+		<meta property="og:title" content="Digital Loukoum · Matthieu Gindre" />
+		<meta property="og:description" content="Donner vie aux idées, ligne après ligne. SaaS, apps, outils et architecture logicielle." />
+		<meta name="theme-color" content="#ff2d87" />
+		<link rel="icon" id="favicon" href="./assets/web/favicon.png" />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link
+			rel="stylesheet"
+			href="https://fonts.googleapis.com/css2?family=Bagel+Fat+One&family=Fredoka:wght@400..700&family=Geist:wght@300..800&family=Geist+Mono:wght@400..600&family=Instrument+Serif:ital@1&display=swap"
+		/>
+		<link rel="stylesheet" href="./index.css" />
+		<script>
+			// Applied before the first paint, so the page never flashes in the wrong theme.
+			document.documentElement.classList.add("js")
+			if (new URLSearchParams(location.search).get("mode") === "loukoum") document.documentElement.dataset.loukoum = ""
+			// the language: the one picked in the header, otherwise the first of the browser's (its Accept-Language)
+			let lang
+			try {
+				lang = localStorage.getItem("lang")
+			} catch {}
+			lang ||= navigator.languages.find(tag => /^(fr|en)\b/.test(tag))?.slice(0, 2) ?? "en"
+			document.documentElement.lang = lang
+			try {
+				const theme = localStorage.getItem("theme")
+				if (theme) document.documentElement.dataset.theme = theme
+			} catch {}
+		</script>
+		<script type="module" src="./main.ts"></script>
+	</head>
+	<body>
+		<svg style="display: none">
+			<symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14M13 6l6 6-6 6" /></symbol>
+			<symbol id="i-out" viewBox="0 0 24 24"><path d="M7 17 17 7M8 7h9v9" /></symbol>
+			<symbol id="i-download" viewBox="0 0 24 24"><path d="M12 4v11m0 0-4-4m4 4 4-4M5 20h14" /></symbol>
+			<symbol id="i-mail" viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2.5" /><path d="m4 7 8 6 8-6" /></symbol>
+			<symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4" /><path d="M12 2v2m0 16v2M2 12h2m16 0h2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4m0-14.2-1.4 1.4M6.3 17.7l-1.4 1.4" /></symbol>
+			<symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8.5 8.5 0 0 1 9.5 4 8.5 8.5 0 1 0 20 14.5Z" /></symbol>
+			<symbol id="i-github" viewBox="0 0 24 24"><path fill="currentColor" stroke="none" d="M12 2C6.477 2 2 6.484 2 12.017c0 4.425 2.865 8.18 6.839 9.504.5.092.682-.217.682-.483 0-.237-.008-.868-.013-1.703-2.782.605-3.369-1.393-3.369-1.393-.454-1.157-1.11-1.465-1.11-1.465-.908-.62.069-.608.069-.608 1.003.07 1.531 1.032 1.531 1.032.892 1.53 2.341 1.088 2.91.832.092-.647.35-1.088.636-1.338-2.22-.253-4.555-1.113-4.555-4.951 0-1.093.39-1.988 1.029-2.688-.103-.253-.446-1.272.098-2.65 0 0 .84-.27 2.75 1.026A9.564 9.564 0 0 1 12 6.844c.85.004 1.705.115 2.504.337 1.909-1.296 2.747-1.027 2.747-1.027.546 1.379.202 2.398.1 2.651.64.7 1.028 1.595 1.028 2.688 0 3.848-2.339 4.695-4.566 4.943.359.309.678.92.678 1.855 0 1.338-.012 2.419-.012 2.747 0 .268.18.58.688.482A10.019 10.019 0 0 0 22 12.017C22 6.484 17.522 2 12 2z" /></symbol>
+			<symbol id="i-linkedin" viewBox="0 0 24 24"><path fill="currentColor" stroke="none" d="M19 3a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h14m-.5 15.5v-5.3a3.26 3.26 0 0 0-3.26-3.26c-.85 0-1.84.52-2.32 1.3v-1.11h-2.79v8.37h2.79v-4.93c0-.77.62-1.4 1.39-1.4a1.4 1.4 0 0 1 1.4 1.4v4.93h2.79M6.88 8.56a1.68 1.68 0 0 0 1.68-1.68c0-.93-.75-1.69-1.68-1.69a1.69 1.69 0 0 0-1.69 1.69c0 .93.76 1.68 1.69 1.68m1.39 9.12v-8.37H5.5v8.37h2.77z" /></symbol>
+		</svg>
+
+		<header class="nav">
+			<a class="brand" href="#top" aria-label="Digital Loukoum, retour en haut" data-en-aria-label="Digital Loukoum, back to top">
+				<img class="only-pro" src="./assets/web/logo.webp" alt="" width="36" height="36" />
+				<img class="only-loukoum" src="./assets/web/lokum.webp" alt="" width="36" height="36" loading="lazy" />
+				<span>Digital Loukoum</span>
+			</a>
+			<nav class="nav-links" aria-label="Sections">
+				<a href="#services" data-lk="Douceurs" data-lk-en="Sweets">Services</a>
+				<a href="#langages" data-lk="Parfums" data-en="Languages" data-lk-en="Flavours">Langages</a>
+				<a href="#projets" data-lk="Vitrine" data-en="Projects" data-lk-en="Showcase">Projets</a>
+				<a href="#parcours" data-lk="Légende" data-en="Journey" data-lk-en="Legend">Parcours</a>
+				<a href="#contact" data-lk="Commander" data-lk-en="Order">Contact</a>
+			</nav>
+			<div class="nav-actions">
+				<a class="icon-button" href="https://github.com/gin-quin" target="_blank" rel="noopener" aria-label="GitHub">
+					<svg class="icon"><use href="#i-github" /></svg>
+				</a>
+				<button class="icon-button lang-button" id="lang-toggle" type="button" aria-label="Read in English" data-en-aria-label="Lire en français">
+					<span data-en="FR">EN</span>
+				</button>
+				<button class="icon-button" id="theme-toggle" type="button" aria-label="Changer de thème, clair ou sombre" data-en-aria-label="Switch between light and dark theme">
+					<svg class="icon sun"><use href="#i-sun" /></svg>
+					<svg class="icon moon"><use href="#i-moon" /></svg>
+				</button>
+				<a class="button small primary" data-cv="same">
+					<svg class="icon"><use href="#i-download" /></svg>
+					<span>CV</span>
+				</a>
+			</div>
+		</header>
+
+		<main id="top">
+			<!-- ─── Hero ─────────────────────────────────────────── -->
+			<section class="hero">
+				<div class="aurora" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+				<div class="hero-grid" aria-hidden="true"></div>
+
+				<div class="container hero-layout">
+					<div class="hero-text">
+						<p class="kicker rise" style="--i: 0">
+							<span class="kicker-dot"></span>
+							<span data-lk="Digital Loukoum · confiserie logicielle artisanale" data-en="Digital Loukoum · software development studio" data-lk-en="Digital Loukoum · artisan software confectionery">Digital Loukoum · studio de développement logiciel</span>
+						</p>
+						<h1 class="hero-title">
+							<span class="rise" style="--i: 1" data-lk="Donner du moelleux aux idées," data-en="Bringing ideas to life," data-lk-en="Making ideas melt-in-the-mouth,">Donner vie aux idées,</span>
+							<em class="accent selection rise" style="--i: 2">
+								<span data-lk="loukoum après loukoum." data-en="line by line." data-lk-en="loukoum by loukoum.">ligne après ligne.</span>
+								<i class="selection-cursor" aria-hidden="true"><b>Matthieu</b></i>
+							</em>
+						</h1>
+						<p
+							class="lead rise"
+							style="--i: 3"
+							data-lk="Je suis <strong>Matthieu Gindre</strong>, ingénieur logiciel, architecte et designer. Je code depuis <strong>11&nbsp;ans</strong> et je conçois des SaaS, des apps et des outils rapides, fondants et faits pour durer."
+							data-en="I'm <strong>Matthieu Gindre</strong>, software engineer, architect and designer. I've been coding for <strong>11&nbsp;years</strong>, building SaaS, apps and tools that are fast, elegant and built to last."
+							data-lk-en="I'm <strong>Matthieu Gindre</strong>, software engineer, architect and designer. I've been coding for <strong>11&nbsp;years</strong>, building SaaS, apps and tools that are fast, melt-in-the-mouth and built to last."
+						>
+							Je suis <strong>Matthieu Gindre</strong>, ingénieur logiciel, architecte et designer. Je code depuis
+							<strong>11&nbsp;ans</strong> et je conçois des SaaS, des apps et des outils rapides, élégants et faits pour
+							durer.
+						</p>
+						<div class="hero-actions rise" style="--i: 4">
+							<a class="button primary" href="mailto:gindre.matthieu@gmail.com?subject=Parlons%20de%20mon%20projet" data-en-href="mailto:gindre.matthieu@gmail.com?subject=Let's%20talk%20about%20my%20project">
+								<span data-en="Let's talk about your project">Parlons de votre projet</span>
+								<svg class="icon"><use href="#i-arrow" /></svg>
+							</a>
+							<a class="button ghost" data-cv="same">
+								<svg class="icon"><use href="#i-download" /></svg>
+								<span data-en="Download my resume">Télécharger mon CV</span>
+							</a>
+							<a class="text-link" data-cv="other"><span data-en="Version française">English version</span></a>
+						</div>
+					</div>
+
+					<div class="hero-art rise" style="--i: 2">
+						<div class="orbit orbit-1" aria-hidden="true"><i></i></div>
+						<div class="orbit orbit-2" aria-hidden="true"><i></i></div>
+						<div class="portrait" id="portrait">
+							<div class="portrait-faces">
+								<img src="./assets/web/avatar.webp" alt="Portrait de Matthieu Gindre" data-en-alt="Portrait of Matthieu Gindre" width="500" height="500" fetchpriority="high" />
+								<!-- the other face of the portrait: always there, turned away until the loukoum mode flips the coin -->
+								<img src="./assets/web/prince.webp" alt="" width="1000" height="1000" loading="lazy" />
+							</div>
+						</div>
+						<p class="bubble" id="bubble" role="status"></p>
+
+						<div class="floater" style="--x: -4%; --y: 6%; --s: 64px; --depth: 34; --delay: -1s" aria-hidden="true">
+							<div class="cube"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+							<img class="lokum" src="./assets/web/lokum-pistachio.webp" alt="" loading="lazy" />
+						</div>
+						<div class="floater" style="--x: 86%; --y: -2%; --s: 44px; --depth: -22; --delay: -3s" aria-hidden="true">
+							<div class="cube"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+							<img class="lokum" src="./assets/web/lokum-lemon.webp" alt="" loading="lazy" />
+						</div>
+						<div class="floater" style="--x: 96%; --y: 58%; --s: 78px; --depth: 46; --delay: -2s" aria-hidden="true">
+							<div class="cube"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+							<img class="lokum" src="./assets/web/lokum.webp" alt="" loading="lazy" />
+						</div>
+						<div class="floater" style="--x: 4%; --y: 82%; --s: 52px; --depth: -30; --delay: -4s" aria-hidden="true">
+							<div class="cube"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+							<img class="lokum" src="./assets/web/lokum-violet.webp" alt="" loading="lazy" />
+						</div>
+						<div class="floater" style="--x: 60%; --y: 98%; --s: 34px; --depth: 18; --delay: -5s" aria-hidden="true">
+							<div class="cube"><i></i><i></i><i></i><i></i><i></i><i></i></div>
+							<img class="lokum" src="./assets/web/lokum-coconut.webp" alt="" loading="lazy" />
+						</div>
+					</div>
+				</div>
+
+				<dl class="container stats">
+					<div data-reveal style="--i: 0">
+						<dt><b data-count="11">11</b> <span data-en="years">ans</span></dt>
+						<dd data-lk="de confiserie logicielle" data-en="of professional code" data-lk-en="of software confectionery">de code professionnel</dd>
+					</div>
+					<div data-reveal style="--i: 1">
+						<dt><b data-count="15">15</b></dt>
+						<dd data-lk="SaaS et apps sortis du four" data-en="SaaS and apps built" data-lk-en="SaaS and apps fresh from the oven">SaaS et apps développés</dd>
+					</div>
+					<div data-reveal style="--i: 2">
+						<dt><b data-count="13">13</b></dt>
+						<dd data-lk="projets open source faits maison" data-en="open source projects published" data-lk-en="homemade open source projects">projets open source publiés</dd>
+					</div>
+					<div data-reveal style="--i: 3">
+						<dt><b data-count="72">72</b></dt>
+						<dd data-lk="dépôts GitHub bien garnis" data-en="GitHub repositories" data-lk-en="well-stocked GitHub repositories">dépôts GitHub</dd>
+					</div>
+				</dl>
+			</section>
+
+			<!-- ─── Marquee ──────────────────────────────────────── -->
+			<div class="marquee only-pro" aria-hidden="true">
+				<div class="marquee-track">
+					<span>TypeScript</span><span>Bun</span><span>Rust</span><span>Fa</span><span>Svelte</span><span>Solid</span><span>React</span><span>React Native</span><span>Hono</span><span>Postgres</span><span>ClickHouse</span><span>Cloudflare</span><span>Fly.io</span><span>WebSockets</span><span>CRDT</span><span>WebAssembly</span><span>MCP</span><span>Stripe</span>
+					<span>TypeScript</span><span>Bun</span><span>Rust</span><span>Fa</span><span>Svelte</span><span>Solid</span><span>React</span><span>React Native</span><span>Hono</span><span>Postgres</span><span>ClickHouse</span><span>Cloudflare</span><span>Fly.io</span><span>WebSockets</span><span>CRDT</span><span>WebAssembly</span><span>MCP</span><span>Stripe</span>
+				</div>
+			</div>
+			<div class="marquee only-loukoum" aria-hidden="true">
+				<div class="marquee-track">
+					<span>TypeScript</span><span>Bun</span><span>Rose</span><span>Fa</span><span>Svelte</span><span data-en="Pistachio">Pistache</span><span>React</span><span>React Native</span><span data-en="Lemon">Citron</span><span>Postgres</span><span>ClickHouse</span><span data-en="Orange blossom">Fleur d'oranger</span><span>Fly.io</span><span>WebSockets</span><span data-en="Coconut">Noix de coco</span><span>WebAssembly</span><span>MCP</span><span data-en="Pomegranate">Grenade</span>
+					<span>TypeScript</span><span>Bun</span><span>Rose</span><span>Fa</span><span>Svelte</span><span data-en="Pistachio">Pistache</span><span>React</span><span>React Native</span><span data-en="Lemon">Citron</span><span>Postgres</span><span>ClickHouse</span><span data-en="Orange blossom">Fleur d'oranger</span><span>Fly.io</span><span>WebSockets</span><span data-en="Coconut">Noix de coco</span><span>WebAssembly</span><span>MCP</span><span data-en="Pomegranate">Grenade</span>
+				</div>
+			</div>
+
+			<!-- ─── Services ─────────────────────────────────────── -->
+			<section class="section" id="services">
+				<div class="container">
+					<header class="section-header" data-reveal>
+						<p class="eyebrow"><b>01</b> <span data-lk="La carte" data-lk-en="The menu">Services</span></p>
+						<h2 data-lk="Les spécialités <em class='accent'>du chef.</em>" data-en="What I do <em class='accent'>best.</em>" data-lk-en="The chef's <em class='accent'>specialities.</em>">Ce que je fais <em class="accent">de mieux.</em></h2>
+						<p data-lk="Tout est fait maison, découpé au couteau et servi tiède. Choisissez votre parfum." data-en="From the first sketch to production, and long after. A single contact, who designs, codes and ships." data-lk-en="Everything is homemade, hand-cut and served warm. Pick your flavour.">
+							Du premier croquis à la mise en production, et bien après. Un seul interlocuteur, qui conçoit, code
+							et livre.
+						</p>
+					</header>
+
+					<div class="bento">
+						<article class="card glow wide" data-reveal style="--c: var(--pink)">
+							<div class="viz viz-saas" aria-hidden="true">
+								<div class="mini-window"><i></i><i></i><i></i><b data-en="Online">En ligne</b></div>
+								<ul>
+									<li>Design</li>
+									<li data-en="Development">Développement</li>
+									<li data-en="Payment">Paiement</li>
+									<li data-en="Hosting">Hébergement</li>
+									<li data-en="Support">Suivi</li>
+								</ul>
+							</div>
+							<h3 data-en="Turnkey SaaS">SaaS clé en main</h3>
+							<p data-lk="De l'idée à la première facture&nbsp;: design, développement, authentification, paiement, hébergement. Vous arrivez avec un besoin, vous repartez avec un produit en ligne, tout chaud sorti du four." data-en="From the idea to the first invoice: design, development, authentication, payment, hosting. You come with a need, you leave with a product online." data-lk-en="From the idea to the first invoice: design, development, authentication, payment, hosting. You come with a need, you leave with a product online, fresh from the oven.">
+								De l'idée à la première facture&nbsp;: design, développement, authentification, paiement,
+								hébergement. Vous arrivez avec un besoin, vous repartez avec un produit en ligne.
+							</p>
+						</article>
+
+						<article class="card glow" data-reveal style="--c: var(--cyan); --i: 1">
+							<div class="viz viz-live" aria-hidden="true">
+								<i></i><i></i><i></i>
+								<span class="cursor cursor-1">Ana</span>
+								<span class="cursor cursor-2">Léo</span>
+							</div>
+							<h3 data-en="Real-time collaboration">Collaboration temps réel</h3>
+							<p data-lk="CRDT, synchronisation, mode hors-ligne. J'ai même écrit ma propre librairie de sync, faite maison&nbsp;: Pulsify." data-en="CRDTs, sync, offline mode. I even wrote my own sync library: Pulsify." data-lk-en="CRDTs, sync, offline mode. I even wrote my own homemade sync library: Pulsify.">
+								CRDT, synchronisation, mode hors-ligne. J'ai même écrit ma propre librairie de sync&nbsp;:
+								Pulsify.
+							</p>
+						</article>
+
+						<article class="card glow" data-reveal style="--c: var(--orange)">
+							<div class="viz viz-perf" aria-hidden="true">
+								<div class="bar before"><span data-en="before">avant</span></div>
+								<div class="bar after"><span data-en="after">après</span></div>
+							</div>
+							<h3>Performance</h3>
+							<p data-lk="Trouver le goulot, le mesurer, le supprimer. Front, back ou base de données&nbsp;: ça doit fondre." data-en="Find the bottleneck, measure it, remove it. Front end, back end or database: it has to fly." data-lk-en="Find the bottleneck, measure it, remove it. Front end, back end or database: it has to melt.">Trouver le goulot, le mesurer, le supprimer. Front, back ou base de données&nbsp;: ça doit filer.</p>
+						</article>
+
+						<article class="card glow" data-reveal style="--c: var(--purple); --i: 1">
+							<div class="viz viz-ai" aria-hidden="true">
+								<svg viewBox="0 0 220 120">
+									<path d="M110 60 40 28M110 60 180 28M110 60 40 94M110 60 180 94" />
+									<circle cx="40" cy="28" r="9" /><circle cx="180" cy="28" r="9" /><circle cx="40" cy="94" r="9" /><circle cx="180" cy="94" r="9" />
+									<circle class="core" cx="110" cy="60" r="19" />
+									<text x="110" y="64">MCP</text>
+								</svg>
+							</div>
+							<h3 data-en="AI agents, APIs &amp; MCP servers">Agents IA, API &amp; serveurs MCP</h3>
+							<p data-lk="Agents orchestrés, chatbots à mémoire, API et serveurs MCP&nbsp;: des commis IA branchés sur votre métier." data-en="Orchestrated agents, chatbots with memory, APIs and MCP servers to plug AI into your business." data-lk-en="Orchestrated agents, chatbots with memory, APIs and MCP servers: AI kitchen hands plugged into your business.">Agents orchestrés, chatbots à mémoire, API et serveurs MCP pour brancher l'IA sur votre métier.</p>
+						</article>
+
+						<article class="card glow" data-reveal style="--c: var(--pink); --i: 2">
+							<div class="viz viz-devices" aria-hidden="true">
+								<div class="laptop"><i></i><i></i><i></i></div>
+								<div class="phone"><i></i><i></i></div>
+							</div>
+							<h3 data-lk="Apps mobiles &amp; de bureau, à emporter" data-en="Mobile &amp; desktop apps" data-lk-en="Mobile &amp; desktop apps, to take away">Apps mobiles &amp; de bureau</h3>
+							<p data-en="iOS, Android, macOS, Windows, Linux. Native when it matters, cross-platform when it's smart.">iOS, Android, macOS, Windows, Linux. Natif quand il le faut, multiplateforme quand c'est malin.</p>
+						</article>
+
+						<article class="card glow" data-reveal style="--c: var(--violet)">
+							<div class="viz viz-layers" aria-hidden="true"><i></i><i></i><i></i></div>
+							<h3 data-en="Architecture &amp; code audits">Architecture &amp; audit de code</h3>
+							<p data-lk="Analyse de bases de code, réduction de la dette technique trop caramélisée, architectures qui tiennent la charge." data-en="Codebase analysis, technical debt reduction, architectures that hold the load." data-lk-en="Codebase analysis, reduction of over-caramelised technical debt, architectures that hold the load.">Analyse de bases de code, réduction de la dette technique, architectures qui tiennent la charge.</p>
+						</article>
+
+						<article class="card glow" data-reveal style="--c: var(--yellow); --i: 1">
+							<div class="viz viz-costs" aria-hidden="true">
+								<svg viewBox="0 0 220 120" preserveAspectRatio="none">
+									<path pathLength="1" d="M8 22C60 24 78 30 110 62s64 36 102 38" />
+								</svg>
+								<b>€€€</b><b>€</b>
+							</div>
+							<h3 data-en="Infrastructure costs">Coûts d'infrastructure</h3>
+							<p data-lk="Auto-hébergement, edge, bases bien choisies&nbsp;: la même puissance, avec beaucoup moins de sucre sur la facture." data-en="Self-hosting, edge, well-chosen databases: the same power for a fraction of the bill." data-lk-en="Self-hosting, edge, well-chosen databases: the same power, with a lot less sugar on the bill.">Auto-hébergement, edge, bases bien choisies&nbsp;: la même puissance pour une fraction de la facture.</p>
+						</article>
+
+						<article class="card glow" data-reveal style="--c: var(--red); --i: 2">
+							<div class="viz viz-design" aria-hidden="true"><i></i><i></i><i></i><i></i><i></i></div>
+							<h3>Design</h3>
+							<p data-lk="Interfaces, identités visuelles, maquettes. Le grain de sucre glace compte autant que l'octet." data-en="Interfaces, visual identities, mockups. The pixel matters as much as the byte." data-lk-en="Interfaces, visual identities, mockups. A grain of icing sugar matters as much as the byte.">Interfaces, identités visuelles, maquettes. Le pixel compte autant que l'octet.</p>
+						</article>
+
+						<article class="card glow" data-reveal style="--c: var(--cyan)">
+							<div class="viz viz-terminal" aria-hidden="true">
+								<code data-en="$ bun run custom-tool<br /><span>✓ 3&nbsp;h saved every week</span><i></i>">$ bun run outil-sur-mesure<br /><span>✓ 3&nbsp;h gagnées chaque semaine</span><i></i></code>
+							</div>
+							<h3 data-en="Custom tools">Outils sur mesure</h3>
+							<p data-lk="Scripts, CLI, back-offices, automatisations&nbsp;: l'ustensile qui manque à votre cuisine." data-en="Scripts, CLIs, back offices, automations: the tool your team is missing." data-lk-en="Scripts, CLIs, back offices, automations: the utensil your kitchen is missing.">Scripts, CLI, back-offices, automatisations&nbsp;: l'outil qui manque à votre équipe.</p>
+						</article>
+
+						<a class="card glow wide card-cta" data-reveal style="--c: var(--pink); --i: 1" href="#contact">
+							<h3 data-lk="Un besoin qui n'est pas à la carte&nbsp;?" data-en="A need that's not on the list?" data-lk-en="A craving that's not on the menu?">Un besoin qui n'est pas dans la liste&nbsp;?</h3>
+							<p data-lk="Parlons-en. Les recettes inédites sont souvent les plus intéressantes." data-en="Let's talk. Unusual problems are often the most interesting ones." data-lk-en="Let's talk. New recipes are often the most interesting ones.">
+								Parlons-en. Les problèmes inédits sont souvent les plus intéressants.
+							</p>
+							<span class="button primary">
+								<span data-en="Get in touch">Me contacter</span>
+								<svg class="icon"><use href="#i-arrow" /></svg>
+							</span>
+						</a>
+					</div>
+				</div>
+			</section>
+
+			<!-- ─── Langages ─────────────────────────────────────── -->
+			<section class="section" id="langages">
+				<div class="container">
+					<header class="section-header" data-reveal>
+						<p class="eyebrow"><b>02</b> <span data-lk="Les parfums" data-en="Languages" data-lk-en="The flavours">Langages</span></p>
+						<h2 data-lk="Mes parfums <em class='accent'>préférés.</em>" data-en="My languages <em class='accent'>of choice.</em>" data-lk-en="My favourite <em class='accent'>flavours.</em>">Mes langages <em class="accent">de prédilection.</em></h2>
+						<p data-lk="Trois parfums, zéro colorant. Le troisième est une recette de la maison." data-en="Three languages, three temperaments. One of which I designed myself." data-lk-en="Three flavours, zero colouring. The third is a house recipe.">
+							Trois langages, trois tempéraments. Dont un que j'ai dessiné moi-même.
+						</p>
+					</header>
+
+					<div class="languages">
+						<article class="language glow" data-reveal style="--c: #3b82f6">
+							<header>
+								<img class="language-mark" src="./assets/web/typescript.svg" alt="" width="44" height="44" loading="lazy" />
+								<div>
+									<h3>TypeScript</h3>
+									<p data-lk="à la pistache" data-en="with Bun" data-lk-en="pistachio">avec Bun</p>
+								</div>
+							</header>
+							<pre><code data-en='<span class="k">import</span> { serve } <span class="k">from</span> <span class="s">"bun"</span>
+
+<span class="f">serve</span>({
+  routes: {
+    <span class="s">"/ideas"</span>: <span class="k">async</span> request <span class="p">=&gt;</span> {
+      <span class="k">const</span> idea = <span class="k">await</span> request.<span class="f">json</span>()
+      <span class="k">return</span> <span class="f">ship</span>(idea)
+    },
+  },
+})'><span class="k">import</span> { serve } <span class="k">from</span> <span class="s">"bun"</span>
+
+<span class="f">serve</span>({
+  routes: {
+    <span class="s">"/idees"</span>: <span class="k">async</span> requete <span class="p">=&gt;</span> {
+      <span class="k">const</span> idee = <span class="k">await</span> requete.<span class="f">json</span>()
+      <span class="k">return</span> <span class="f">livrer</span>(idee)
+    },
+  },
+})</code></pre>
+							<p data-en="My daily driver. Front end to back end, typed end to end, powered by Bun to go fast, in development and in production.">
+								Mon quotidien. Du front au back, typé de bout en bout, propulsé par Bun pour aller vite, en
+								développement comme en production.
+							</p>
+						</article>
+
+						<article class="language glow" data-reveal style="--c: #f97316; --i: 1">
+							<header>
+								<img class="language-mark" src="./assets/web/rust.svg" alt="" width="44" height="44" loading="lazy" />
+								<div>
+									<h3>Rust</h3>
+									<p data-lk="à la rose" data-en="for speed" data-lk-en="rose">pour la vitesse</p>
+								</div>
+							</header>
+							<pre><code data-en='<span class="k">fn</span> <span class="f">main</span>() {
+  <span class="k">let</span> products: <span class="t">Vec</span>&lt;_&gt; = <span class="f">ideas</span>()
+    .<span class="f">into_par_iter</span>()
+    .<span class="f">filter</span>(<span class="t">Idea</span>::is_worth_it)
+    .<span class="f">map</span>(build)
+    .<span class="f">collect</span>();
+
+  <span class="f">ship</span>(products);
+}'><span class="k">fn</span> <span class="f">main</span>() {
+  <span class="k">let</span> produits: <span class="t">Vec</span>&lt;_&gt; = <span class="f">idees</span>()
+    .<span class="f">into_par_iter</span>()
+    .<span class="f">filter</span>(<span class="t">Idee</span>::vaut_le_coup)
+    .<span class="f">map</span>(construire)
+    .<span class="f">collect</span>();
+
+  <span class="f">livrer</span>(produits);
+}</code></pre>
+							<p data-en="When every millisecond counts: parsers, sync engines, command-line tools and WebAssembly.">
+								Quand chaque milliseconde compte&nbsp;: parseurs, moteurs de synchronisation, outils en ligne de
+								commande et WebAssembly.
+							</p>
+						</article>
+
+						<article class="language glow" data-reveal style="--c: #ff1f8e; --i: 2">
+							<header>
+								<img class="language-mark" src="./assets/portfolio/fa.webp" alt="" width="44" height="44" loading="lazy" />
+								<div>
+									<h3>Fa</h3>
+									<p data-lk="à la fleur d'oranger" data-en="my own language" data-lk-en="orange blossom">mon propre langage</p>
+								</div>
+							</header>
+							<pre><code><span class="k">reactive</span> count = <span class="n">0</span>
+<span class="k">derived</span> doubled = count * <span class="n">2</span>
+
+<span class="k">watch</span> {
+	console.<span class="f">log</span>(<span class="s">"{count} × 2 = {doubled}"</span>)
+}
+
+count += <span class="n">1</span> <span class="c">-- logs "1 × 2 = 2"</span></code></pre>
+							<p data-en="A language designed for AI agents and humans: 100% type-safe, typed errors and effects, memory safety without a garbage collector.">
+								Un langage pensé pour les agents IA et les humains&nbsp;: 100&nbsp;% type-safe, erreurs et effets typés,
+								sûreté mémoire sans garbage collector.
+							</p>
+							<a class="text-link" href="https://fa-lang.dev" target="_blank" rel="noopener">
+								<span data-en="Discover Fa on fa-lang.dev">Découvrir Fa sur fa-lang.dev</span>
+								<svg class="icon"><use href="#i-out" /></svg>
+							</a>
+						</article>
+					</div>
+				</div>
+			</section>
+
+			<!-- ─── Projets ──────────────────────────────────────── -->
+			<section class="section" id="projets">
+				<div class="container">
+					<header class="section-header" data-reveal>
+						<p class="eyebrow"><b>03</b> <span data-lk="La vitrine" data-lk-en="The showcase">Portfolio</span></p>
+						<h2 data-lk="Quelques <em class='accent'>fournées</em> dont je suis fier." data-en="Products that are <em class='accent'>very real.</em>" data-lk-en="A few <em class='accent'>batches</em> I'm proud of.">Des produits <em class="accent">bien réels.</em></h2>
+						<p data-lk="Fondés, conçus ou construits de zéro. Survolez une capture pour faire défiler le site. Regarder, c'est déjà goûter." data-en="Founded, designed or built from scratch. Hover a screenshot to scroll through the site." data-lk-en="Founded, designed or built from scratch. Hover a screenshot to scroll through the site. Looking is already tasting.">
+							Fondés, conçus ou construits de zéro. Survolez une capture pour faire défiler le site.
+						</p>
+					</header>
+
+					<div class="projects">
+						<article class="project featured glow" data-reveal style="--c: #ff6b35">
+							<a class="shot" href="https://talers.io" target="_blank" rel="noopener" aria-label="Visiter talers.io" data-en-aria-label="Visit talers.io">
+								<span class="chrome" aria-hidden="true"><i></i><i></i><i></i><b>talers.io</b></span>
+								<img src="./assets/portfolio/talers-shot.webp" alt="Page d'accueil de Talers" data-en-alt="Talers home page" width="1200" height="2400" loading="lazy" />
+							</a>
+							<div class="project-body">
+								<header>
+									<img src="./assets/portfolio/talers.svg" alt="" width="44" height="44" loading="lazy" />
+									<div>
+										<h3>Talers</h3>
+										<p data-en="Founder &amp; CTO · 2020 — 2025">Fondateur &amp; CTO · 2020 — 2025</p>
+									</div>
+								</header>
+								<p data-en="The writing app for authors: real-time collaborative editor, AI assistance, homemade DOCX export and a proofreader in more than 20&nbsp;languages.">
+									L'application d'écriture des auteurs&nbsp;: éditeur collaboratif temps réel, assistance IA, export
+									DOCX maison et correcteur en plus de 20&nbsp;langues.
+								</p>
+								<p class="badge" data-lk="Pétri à la main, avant les robots pâtissiers" data-en="Built from scratch, by hand, before the AI era" data-lk-en="Kneaded by hand, before the robot mixers">Construit de zéro, à la main, avant l'ère de l'IA</p>
+								<ul class="tags">
+									<li>Svelte</li>
+									<li>Yjs</li>
+									<li>Postgres</li>
+									<li>Fly.io</li>
+									<li>Cloudflare</li>
+								</ul>
+								<a class="text-link" href="https://talers.io" target="_blank" rel="noopener">talers.io <svg class="icon"><use href="#i-out" /></svg></a>
+							</div>
+						</article>
+
+						<article class="project glow" data-reveal style="--c: #ff1f8e">
+							<a class="shot" href="https://fa-lang.dev" target="_blank" rel="noopener" aria-label="Visiter fa-lang.dev" data-en-aria-label="Visit fa-lang.dev">
+								<span class="chrome" aria-hidden="true"><i></i><i></i><i></i><b>fa-lang.dev</b></span>
+								<img src="./assets/portfolio/fa-shot.webp" alt="Site du langage Fa" data-en-alt="Website of the Fa language" width="1200" height="2400" loading="lazy" />
+							</a>
+							<div class="project-body">
+								<header>
+									<img src="./assets/portfolio/fa.webp" alt="" width="44" height="44" loading="lazy" />
+									<div>
+										<h3>Fa</h3>
+										<p data-en="Creator · open source">Créateur · open source</p>
+									</div>
+								</header>
+								<p data-en="A programming language for AI agents and humans. “If it compiles, it works.” Compiles to JavaScript, native and WebAssembly.">
+									Un langage de programmation pour les agents IA et les humains. « If it compiles, it works.&nbsp;»
+									Compile vers JavaScript, natif et WebAssembly.
+								</p>
+								<ul class="tags">
+									<li>Rust</li>
+									<li data-en="Compiler">Compilateur</li>
+									<li>Language server</li>
+								</ul>
+								<a class="text-link" href="https://fa-lang.dev" target="_blank" rel="noopener">fa-lang.dev <svg class="icon"><use href="#i-out" /></svg></a>
+							</div>
+						</article>
+
+						<article class="project glow" data-reveal style="--c: #ff4f20; --i: 1">
+							<a class="shot" href="https://haloapp.club" target="_blank" rel="noopener" aria-label="Visiter haloapp.club" data-en-aria-label="Visit haloapp.club">
+								<span class="chrome" aria-hidden="true"><i></i><i></i><i></i><b>haloapp.club</b></span>
+								<img src="./assets/portfolio/halo-shot.webp" alt="Page d'accueil de Halo" data-en-alt="Halo home page" width="1200" height="2400" loading="lazy" />
+							</a>
+							<div class="project-body">
+								<header>
+									<img src="./assets/portfolio/halo.png" alt="" width="44" height="44" loading="lazy" />
+									<div>
+										<h3>Halo</h3>
+										<p data-en="Full-stack engineer · 2026">Ingénieur full-stack · 2026</p>
+									</div>
+								</header>
+								<p data-en="The social app that turns wherever you are into a small, friendly group: geolocation, real-time chat, emoji reactions.">
+									L'app sociale qui transforme le lieu où vous êtes en petit groupe convivial&nbsp;: géolocalisation,
+									chat temps réel, réactions emoji.
+								</p>
+								<ul class="tags">
+									<li>React Native</li>
+									<li>Expo</li>
+									<li>Supabase</li>
+								</ul>
+								<a class="text-link" href="https://haloapp.club" target="_blank" rel="noopener">haloapp.club <svg class="icon"><use href="#i-out" /></svg></a>
+							</div>
+						</article>
+
+						<article class="project glow" data-reveal style="--c: #0f9f7c">
+							<a class="shot split" style="--split: 17.78%" href="https://mkpi-solutions.com" target="_blank" rel="noopener" aria-label="Visiter mkpi-solutions.com" data-en-aria-label="Visit mkpi-solutions.com">
+								<span class="chrome" aria-hidden="true"><i></i><i></i><i></i><b>app.mkpi-solutions.com</b></span>
+								<img class="shot-fixed" src="./assets/portfolio/mkpi-side.webp" alt="" width="213" height="725" loading="lazy" />
+								<img src="./assets/portfolio/mkpi-shot.webp" alt="Liste des biens dans l'application MKPI" data-en-alt="List of properties in the MKPI app" width="987" height="1987" loading="lazy" />
+							</a>
+							<div class="project-body">
+								<header>
+									<img class="padded" src="./assets/portfolio/mkpi.svg" alt="" width="44" height="44" loading="lazy" />
+									<div>
+										<h3>MKPI</h3>
+										<p data-en="Full-stack engineer · 2026">Ingénieur full-stack · 2026</p>
+									</div>
+								</header>
+								<p data-en="The marketplace connecting property management with building contractors. Web, iOS and Android built from scratch, quotes compared by AI.">
+									La marketplace qui relie la gestion immobilière aux artisans du bâtiment. Web, iOS et Android
+									développés de zéro, devis comparés par IA.
+								</p>
+								<ul class="tags">
+									<li>Svelte</li>
+									<li>Capacitor</li>
+									<li>Supabase</li>
+									<li>Stripe</li>
+								</ul>
+								<a class="text-link" href="https://mkpi-solutions.com" target="_blank" rel="noopener">mkpi-solutions.com <svg class="icon"><use href="#i-out" /></svg></a>
+							</div>
+						</article>
+
+						<article class="project glow" data-reveal style="--c: #2ee6c9; --i: 1">
+							<a class="shot" href="https://pulsify.cloud" target="_blank" rel="noopener" aria-label="Visiter pulsify.cloud" data-en-aria-label="Visit pulsify.cloud">
+								<span class="chrome" aria-hidden="true"><i></i><i></i><i></i><b>pulsify.cloud</b></span>
+								<img src="./assets/portfolio/pulsify-shot.webp" alt="Page d'accueil de Pulsify" data-en-alt="Pulsify home page" width="1200" height="2400" loading="lazy" />
+							</a>
+							<div class="project-body">
+								<header>
+									<img src="./assets/portfolio/pulsify.png" alt="" width="44" height="44" loading="lazy" />
+									<div>
+										<h3>Pulsify</h3>
+										<p data-en="Creator · open source">Créateur · open source</p>
+									</div>
+								</header>
+								<p data-en="The typed CRDT framework: collaborative documents that look like plain objects, migrate on their own and live in your database.">
+									Le framework CRDT typé&nbsp;: des documents collaboratifs qui ressemblent à de simples objets,
+									migrent tout seuls et vivent dans votre base de données.
+								</p>
+								<ul class="tags">
+									<li>TypeScript</li>
+									<li>CRDT</li>
+									<li data-en="Real time">Temps réel</li>
+								</ul>
+								<a class="text-link" href="https://pulsify.cloud" target="_blank" rel="noopener">pulsify.cloud <svg class="icon"><use href="#i-out" /></svg></a>
+							</div>
+						</article>
+
+						<article class="project featured reverse glow" data-reveal style="--c: #2359d8">
+							<a class="shot" href="https://palatine.page" target="_blank" rel="noopener" aria-label="Visiter palatine.page" data-en-aria-label="Visit palatine.page">
+								<span class="chrome" aria-hidden="true"><i></i><i></i><i></i><b>palatine.page</b></span>
+								<img src="./assets/portfolio/palatine-shot.webp" alt="Page d'accueil de Palatine" data-en-alt="Palatine home page" width="1200" height="2400" loading="lazy" />
+							</a>
+							<div class="project-body">
+								<header>
+									<img class="padded" src="./assets/portfolio/palatine.svg" alt="" width="44" height="44" loading="lazy" />
+									<div>
+										<h3>Palatine</h3>
+										<p data-en="Creator">Créateur</p>
+									</div>
+								</header>
+								<p data-en="The HTML &amp; CSS publishing engine: from a simple invoice to a whole book, PDFs typeset like in a print shop, in the browser or on the server.">
+									Le moteur de publication HTML &amp; CSS&nbsp;: de la simple facture au livre entier, des PDF
+									composés comme en imprimerie, dans le navigateur ou sur serveur.
+								</p>
+								<ul class="tags">
+									<li>WebAssembly</li>
+									<li>PDF</li>
+									<li data-en="Typography">Typographie</li>
+								</ul>
+								<a class="text-link" href="https://palatine.page" target="_blank" rel="noopener">palatine.page <svg class="icon"><use href="#i-out" /></svg></a>
+							</div>
+						</article>
+					</div>
+				</div>
+			</section>
+
+			<!-- ─── Parcours ─────────────────────────────────────── -->
+			<section class="section" id="parcours">
+				<div class="container">
+					<header class="section-header" data-reveal>
+						<p class="eyebrow"><b>04</b> <span data-lk="La légende" data-en="Journey" data-lk-en="The legend">Parcours</span></p>
+						<h2 data-lk="La route <em class='accent'>du loukoum.</em>" data-en="Follow <em class='accent'>the thread.</em>" data-lk-en="The loukoum <em class='accent'>road.</em>">Suivez <em class="accent">le fil.</em></h2>
+						<p data-lk="Faites rouler le loukoum&nbsp;: chaque arrêt est une fournée de plus." data-en="Eleven years of code and a few detours, from my first job to today. Scroll down: the thread unrolls." data-lk-en="Roll the loukoum: every stop is one more batch.">
+							Onze ans de code et quelques chemins de traverse, de mon premier poste à aujourd'hui. Faites
+							défiler&nbsp;: le fil se déroule.
+						</p>
+					</header>
+
+					<div class="timeline" id="timeline">
+						<svg class="thread" aria-hidden="true">
+							<defs>
+								<linearGradient id="thread-gradient" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="1000">
+									<stop offset="0" stop-color="#ffc832" />
+									<stop offset=".3" stop-color="#ff8a00" />
+									<stop offset=".6" stop-color="#ff2d87" />
+									<stop offset="1" stop-color="#a43cff" />
+								</linearGradient>
+							</defs>
+							<path class="thread-track" />
+							<path class="thread-line" />
+						</svg>
+						<div class="traveler" aria-hidden="true">
+							<img class="only-pro" src="./assets/web/logo.webp" alt="" width="48" height="48" />
+							<img class="only-loukoum" src="./assets/web/lokum.webp" alt="" width="48" height="48" loading="lazy" />
+						</div>
+
+						<ol class="stops">
+							<li class="stop mini" style="--c: var(--yellow)">
+								<span class="stop-dot"></span>
+								<article class="stop-card">
+									<p class="stop-year">2019</p>
+									<h3 data-en="Master's degree in mathematics">Master de mathématiques</h3>
+									<p data-en="Because beautiful algorithms often start with beautiful maths.">Parce que les beaux algorithmes commencent souvent par de belles maths.</p>
+								</article>
+							</li>
+							<li class="stop" style="--c: var(--yellow)">
+								<span class="stop-dot"></span>
+								<article class="stop-card">
+									<p class="stop-year">2015 — 2016</p>
+									<h3>AC3 <small data-en="Software engineer">Ingénieur logiciel</small></h3>
+									<p data-en="First job: software for real estate agents. There I learn to hunt down slowness and to put a cloud infrastructure back on its feet.">
+										Premier poste&nbsp;: un logiciel pour agents immobiliers. J'y apprends à traquer les lenteurs
+										et à remettre une infrastructure cloud sur pied.
+									</p>
+									<ul class="tags">
+										<li>JavaScript</li>
+										<li>PHP</li>
+										<li>MySQL</li>
+									</ul>
+								</article>
+							</li>
+							<li class="stop" style="--c: var(--yellow)">
+								<span class="stop-dot"></span>
+								<article class="stop-card">
+									<p class="stop-year">2016 — 2017</p>
+									<h3>RideMate <small data-en="Software engineer">Ingénieur logiciel</small></h3>
+									<p data-en="A map for bikers to meet up and ride together. The whole web app, from the architecture to the map, in six months.">
+										Une carte pour que les motards se retrouvent et roulent ensemble. L'application web
+										entière, de l'architecture à la carte, en six mois.
+									</p>
+									<ul class="tags">
+										<li>React</li>
+										<li>Leaflet</li>
+										<li>PHP</li>
+									</ul>
+								</article>
+							</li>
+							<li class="stop detour" style="--c: var(--green)">
+								<span class="stop-dot"></span>
+								<article class="stop-card">
+									<span class="stamp">
+										<svg viewBox="0 0 60 60" role="img" aria-label="Portugal">
+											<rect class="flag-green" width="25" height="60" />
+											<rect class="flag-red" x="25" width="35" height="60" />
+											<circle class="flag-sphere" cx="25" cy="30" r="12" />
+											<path class="flag-shield" d="M19 23h12v8.5a6 6 0 0 1-12 0z" />
+											<path class="flag-quinas" d="M24 26h2v2h-2zM21.4 28.7h2v2h-2zM24 28.7h2v2h-2zM26.6 28.7h2v2h-2zM24 31.4h2v2h-2z" />
+										</svg>
+									</span>
+									<p class="stop-year" data-en="Stopover · 2&nbsp;months">Escale · 2&nbsp;mois</p>
+									<h3 data-en="Wwoofing in Portugal">Wwoofing au Portugal</h3>
+									<p data-lk="Deux mois dans une ferme, à vérifier par moi-même que les pistaches poussent bien sur les arbres." data-en="I put the keyboard away and go work on a farm. Two months outdoors, where the only bugs have wings." data-lk-en="Two months on a farm, checking for myself that pistachios really do grow on trees.">
+										Je range le clavier et je pars travailler dans une ferme. Deux mois au grand air, où les
+										seuls bugs ont des ailes.
+									</p>
+									<ul class="tags">
+										<li data-en="Fresh air">Grand air</li>
+										<li data-en="Manual work">Travail manuel</li>
+										<li data-en="Sunshine">Soleil</li>
+									</ul>
+								</article>
+							</li>
+							<li class="stop detour" style="--c: var(--cyan)">
+								<span class="stop-dot"></span>
+								<article class="stop-card">
+									<span class="stamp">
+										<svg viewBox="0 0 60 60" role="img" aria-label="Paris">
+											<defs>
+												<linearGradient id="tower-gradient" x1="0" y1="1" x2="0" y2="0">
+													<stop offset="0" style="stop-color: var(--cyan)" />
+													<stop offset="1" style="stop-color: var(--violet)" />
+												</linearGradient>
+											</defs>
+											<path
+												class="tower"
+												fill-rule="evenodd"
+												d="M29.6 3h.8v4h.4C31.4 16 32.6 23 34.2 27h1.6v2.6h-1.2C35.6 32.8 37.4 35.4 39.2 37h2.4v3h-1.5C41.6 44.6 44.4 49.6 47.6 53h-8.2C38.6 47.6 35.2 44.4 30 44.4S21.4 47.6 20.6 53h-8.2C15.6 49.6 18.4 44.6 19.9 40h-1.5v-3h2.4C22.6 35.4 24.4 32.8 25.4 29.6h-1.2V27h1.6C27.4 23 28.6 16 29.2 7h.4zM30 31.2C28.4 33 27.2 35 26.6 37h6.8C32.8 35 31.6 33 30 31.2z"
+											/>
+											<path class="sparkle" d="M13 15Q13 20 18 20Q13 20 13 25Q13 20 8 20Q13 20 13 15z" />
+											<path class="sparkle" d="M47 11Q47 15 51 15Q47 15 47 19Q47 15 43 15Q47 15 47 11z" />
+											<path class="sparkle" d="M48 30Q48 33 51 33Q48 33 48 36Q48 33 45 33Q48 33 48 30z" />
+										</svg>
+									</span>
+									<p class="stop-year" data-en="Stopover · 1&nbsp;year">Escale · 1&nbsp;an</p>
+									<h3 data-en="Composer <small>film and video game music</small>">Compositeur <small>musiques de films et de jeux vidéo</small></h3>
+									<p data-lk="Un an à composer de la musique de film. La bande originale du Royaume du Loukoum, c'est moi." data-en="A year composing for the screen, as a passionate amateur. You learn rhythm, structure and the art of serving a story: just like in code." data-lk-en="A year composing film music. The soundtrack of the Loukoum Kingdom? That's me.">
+										Un an à composer pour l'image, en amateur passionné. On y apprend le rythme, la structure
+										et l'art de servir une histoire&nbsp;: comme en code.
+									</p>
+									<ul class="tags">
+										<li>Piano</li>
+										<li>Composition</li>
+										<li data-en="Cinema">Cinéma</li>
+									</ul>
+								</article>
+							</li>
+							<li class="stop" style="--c: var(--orange)">
+								<span class="stop-dot"></span>
+								<article class="stop-card">
+									<p class="stop-year">2019 — 2020</p>
+									<h3>QuickFDS <small data-en="Software engineer">Ingénieur logiciel</small></h3>
+									<p data-en="Overhaul of an ageing application: SPA architecture, PDF generation at scale and a migration to Postgres.">
+										Refonte d'une application vieillissante&nbsp;: architecture SPA, génération de PDF à grande
+										échelle et migration vers Postgres.
+									</p>
+									<ul class="tags">
+										<li>TypeScript</li>
+										<li>React</li>
+										<li>Postgres</li>
+									</ul>
+								</article>
+							</li>
+							<li class="stop" style="--c: var(--red)">
+								<span class="stop-dot"></span>
+								<article class="stop-card">
+									<p class="stop-year">2020 — 2022</p>
+									<h3>Lonestone <small data-en="Lead developer">Lead développeur</small></h3>
+									<p data-en="Off to Nantes and agency life: six client projects, teams to lead, from a quiz shipped in two weeks to a high-end landing page.">
+										Cap sur Nantes et la vie d'agence&nbsp;: six projets clients, des équipes à mener, du quiz
+										livré en deux semaines à la landing page haut de gamme.
+									</p>
+									<ul class="tags">
+										<li>Svelte</li>
+										<li>Vue</li>
+										<li>NestJS</li>
+										<li>GraphQL</li>
+									</ul>
+								</article>
+							</li>
+							<li class="stop major" style="--c: var(--pink)">
+								<span class="stop-dot"></span>
+								<article class="stop-card">
+									<p class="stop-year">2020 — 2025</p>
+									<h3>Talers <small data-en="Founder &amp; CTO">Fondateur &amp; CTO</small></h3>
+									<p data-en="I found my writing app for authors: real-time collaboration, AI, database replication between Europe and the United States, a proofreader in 20&nbsp;languages.">
+										Je fonde mon application d'écriture pour les auteurs&nbsp;: collaboration temps réel, IA,
+										réplication de base entre l'Europe et les États-Unis, correcteur en 20&nbsp;langues.
+									</p>
+									<ul class="tags">
+										<li>Svelte</li>
+										<li>Yjs</li>
+										<li>Postgres</li>
+										<li>Fly.io</li>
+									</ul>
+								</article>
+							</li>
+							<li class="stop" style="--c: var(--pink)">
+								<span class="stop-dot"></span>
+								<article class="stop-card">
+									<p class="stop-year">2024</p>
+									<h3>Blackroom <small data-en="Freelance front-end expert">Expert front-end freelance</small></h3>
+									<p data-en="Front-end overhaul, modernised stack, and a virtualised table that swallows thousands of rows without flinching.">
+										Refonte du front, stack modernisée, et un tableau virtualisé qui avale des milliers de
+										lignes sans broncher.
+									</p>
+									<ul class="tags">
+										<li>React</li>
+										<li>Vanilla Extract</li>
+										<li>GraphQL</li>
+									</ul>
+								</article>
+							</li>
+							<li class="stop" style="--c: var(--pink)">
+								<span class="stop-dot"></span>
+								<article class="stop-card">
+									<p class="stop-year">2025</p>
+									<h3>La Financière d'Orion <small>Full-stack senior</small></h3>
+									<p data-en="Six months on the tool of wealth management advisors: a new contracts module and a cleaned-up architecture.">
+										Six mois sur l'outil des conseillers en gestion de patrimoine&nbsp;: un nouveau module de
+										contrats et une architecture assainie.
+									</p>
+									<ul class="tags">
+										<li>React</li>
+										<li>AWS</li>
+										<li>Serverless</li>
+									</ul>
+								</article>
+							</li>
+							<li class="stop" style="--c: var(--purple)">
+								<span class="stop-dot"></span>
+								<article class="stop-card">
+									<p class="stop-year">2025 — 2026</p>
+									<h3>WeBurst <small>Full-stack senior</small></h3>
+									<p data-en="An SEO analytics SaaS shipped in three weeks, then extended with an AI chat with memory and an MCP server.">
+										Un SaaS d'analyse SEO livré en trois semaines, puis enrichi d'un chat IA à mémoire et
+										d'un serveur MCP.
+									</p>
+									<ul class="tags">
+										<li>Svelte</li>
+										<li>Bun</li>
+										<li>ClickHouse</li>
+									</ul>
+								</article>
+							</li>
+							<li class="stop" style="--c: var(--purple)">
+								<span class="stop-dot"></span>
+								<article class="stop-card">
+									<p class="stop-year">2026</p>
+									<h3>Halo <small>Full-stack senior</small></h3>
+									<p data-en="A mobile app to meet the people around you: geolocation and real-time chat with reactions.">
+										Une app mobile pour rencontrer les gens autour de soi&nbsp;: géolocalisation et chat temps
+										réel avec réactions.
+									</p>
+									<ul class="tags">
+										<li>React Native</li>
+										<li>Expo</li>
+										<li>Supabase</li>
+									</ul>
+								</article>
+							</li>
+							<li class="stop" style="--c: var(--violet)">
+								<span class="stop-dot"></span>
+								<article class="stop-card">
+									<p class="stop-year">2026</p>
+									<h3>Reedsy <small data-en="Expert software engineer">Ingénieur logiciel expert</small></h3>
+									<p data-en="Three months on their book editor, delivering a DOCX parser four times faster than Pandoc.">
+										Trois mois sur leur éditeur de livres, avec à la clé un parser DOCX quatre fois plus
+										rapide que Pandoc.
+									</p>
+									<ul class="tags">
+										<li>TypeScript</li>
+										<li>Vue 3</li>
+										<li>ShareDB</li>
+									</ul>
+								</article>
+							</li>
+							<li class="stop" style="--c: var(--violet)">
+								<span class="stop-dot"></span>
+								<article class="stop-card">
+									<p class="stop-year">2026</p>
+									<h3>MKPI <small>Full-stack senior</small></h3>
+									<p data-en="The app connecting real estate with contractors, built from scratch on web, iOS and Android. Quotes compared by AI, Stripe billing.">
+										L'app qui relie l'immobilier aux artisans, construite de zéro sur web, iOS et Android.
+										Devis comparés par IA, facturation Stripe.
+									</p>
+									<ul class="tags">
+										<li>Svelte</li>
+										<li>Capacitor</li>
+										<li>Stripe</li>
+									</ul>
+								</article>
+							</li>
+							<li class="stop finale" style="--c: var(--cyan)">
+								<span class="stop-dot"></span>
+								<article class="stop-card">
+									<p class="stop-year" data-lk="Prochaine fournée" data-en="Today" data-lk-en="Next batch">Aujourd'hui</p>
+									<h3 data-lk="Et le prochain loukoum&nbsp;? Cuisinons-le ensemble." data-en="What's next? Maybe we write it together." data-lk-en="And the next loukoum? Let's cook it together.">Et la suite&nbsp;? Elle s'écrit peut-être avec vous.</h3>
+									<a class="button primary" href="#contact">
+										<span data-lk="Prendre contact" data-en="Write the next chapter" data-lk-en="Get in touch">Écrire le prochain chapitre</span>
+										<svg class="icon"><use href="#i-arrow" /></svg>
+									</a>
+								</article>
+							</li>
+						</ol>
+					</div>
+				</div>
+			</section>
+
+			<!-- ─── Contact ──────────────────────────────────────── -->
+			<section class="section contact" id="contact">
+				<div class="aurora" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+				<div class="container" data-reveal>
+					<p class="eyebrow"><b>05</b> <span data-lk="Le comptoir" data-lk-en="The counter">Contact</span></p>
+					<h2 data-lk="Un petit creux logiciel&nbsp;?<br><em class='accent'>Passez commande.</em>" data-en="Got an idea in mind?<br><em class='accent'>Let's bring it to life.</em>" data-lk-en="Feeling peckish for software?<br><em class='accent'>Place your order.</em>">Une idée en tête&nbsp;?<br /><em class="accent">Donnons-lui vie.</em></h2>
+					<p
+						class="lead"
+						data-lk="Un SaaS à la rose, une app à la pistache ou une base de code un peu trop caramélisée&nbsp;: écrivez-moi, je réponds avant que le sucre ne retombe."
+						data-en="A SaaS to launch, an app to build, a codebase to set straight or a performance problem that won't budge: write to me, I answer fast."
+						data-lk-en="A rose SaaS, a pistachio app or a slightly over-caramelised codebase: write to me, I'll answer before the sugar settles."
+					>
+						Un SaaS à lancer, une app à construire, une base de code à remettre d'aplomb ou un problème de
+						performance qui résiste&nbsp;: écrivez-moi, je réponds vite.
+					</p>
+					<div class="contact-actions">
+						<a class="button primary large" href="mailto:gindre.matthieu@gmail.com?subject=Parlons%20de%20mon%20projet" data-en-href="mailto:gindre.matthieu@gmail.com?subject=Let's%20talk%20about%20my%20project">
+							<svg class="icon"><use href="#i-mail" /></svg>
+							gindre.matthieu@gmail.com
+						</a>
+						<a class="button ghost large" href="https://www.linkedin.com/in/matthieu-gindre-814753115" target="_blank" rel="noopener">
+							<svg class="icon"><use href="#i-linkedin" /></svg>
+							LinkedIn
+						</a>
+						<a class="button ghost large" href="https://github.com/gin-quin" target="_blank" rel="noopener">
+							<svg class="icon"><use href="#i-github" /></svg>
+							GitHub
+						</a>
+					</div>
+					<p class="cv-links">
+						<span data-lk="La recette complète&nbsp;:" data-en="My full resume:" data-lk-en="The full recipe:">Mon CV complet&nbsp;:</span>
+						<a class="text-link" data-cv="fr">
+							<svg class="icon"><use href="#i-download" /></svg> Français (PDF)
+						</a>
+						<a class="text-link" data-cv="en">
+							<svg class="icon"><use href="#i-download" /></svg> English (PDF)
+						</a>
+					</p>
+				</div>
+			</section>
+		</main>
+
+		<footer class="footer">
+			<div class="palace only-loukoum" aria-hidden="true">
+				<img src="./assets/web/palace.webp" alt="" width="1536" height="1024" loading="lazy" />
+				<div class="parade">
+					<img src="./assets/web/lokum.webp" alt="" loading="lazy" />
+					<img src="./assets/web/lokum-pistachio.webp" alt="" loading="lazy" />
+					<img src="./assets/web/lokum-lemon.webp" alt="" loading="lazy" />
+					<img src="./assets/web/lokum-orange.webp" alt="" loading="lazy" />
+					<img src="./assets/web/lokum-violet.webp" alt="" loading="lazy" />
+					<img src="./assets/web/lokum-coconut.webp" alt="" loading="lazy" />
+				</div>
+			</div>
+			<div class="container footer-row">
+				<a class="brand" href="#top">
+					<img class="only-pro" src="./assets/web/logo.webp" alt="" width="32" height="32" loading="lazy" />
+					<img class="only-loukoum" src="./assets/web/lokum.webp" alt="" width="32" height="32" loading="lazy" />
+					<span>Digital Loukoum</span>
+				</a>
+				<p>
+					© 2026 Matthieu Gindre · Digital Loukoum <span class="subtle" data-en="(Shiny Lokum, in English)">(Shiny Lokum, en anglais)</span> ·
+					<span data-lk="Cuisiné à la main, saupoudré de sucre glace." data-en="Designed and hand-coded, in TypeScript with Bun." data-lk-en="Handmade, dusted with icing sugar.">Conçu et codé à la main, en TypeScript avec Bun.</span>
+				</p>
+			</div>
+		</footer>
+
+		<!-- ─── Loukoum mode ─────────────────────────────────── -->
+		<div class="dock">
+			<p class="eaten" id="eaten" hidden><img src="./assets/web/lokum.webp" alt="" width="22" height="22" loading="lazy" /> <b>0</b> <span data-en="eaten">dévorés</span></p>
+			<button class="loukoum-toggle" id="loukoum-toggle" type="button" aria-pressed="false">
+				<img src="./assets/web/lokum.webp" alt="" width="30" height="30" />
+				<span data-lk="Retour au sérieux" data-en="Loukoum mode" data-lk-en="Back to business">Mode loukoum</span>
+			</button>
+		</div>
+		<div class="sugar only-loukoum" aria-hidden="true"></div>
+		<div class="sweets" id="sweets" aria-hidden="true"></div>
+		<button class="peeker only-loukoum" id="peeker" type="button" tabindex="-1" aria-hidden="true">
+			<span></span>
+			<img src="./assets/web/prince-avatar.webp" alt="" width="240" height="238" loading="lazy" />
+		</button>
+		<p class="toast" id="toast" role="status"></p>
+		<!-- The sprites the loukoum mode throws around. Lazy: nothing is downloaded until they are used. -->
+		<div id="sprites" hidden>
+			<img src="./assets/web/lokum.webp" alt="" loading="lazy" />
+			<img src="./assets/web/lokum-pistachio.webp" alt="" loading="lazy" />
+			<img src="./assets/web/lokum-lemon.webp" alt="" loading="lazy" />
+			<img src="./assets/web/lokum-orange.webp" alt="" loading="lazy" />
+			<img src="./assets/web/lokum-violet.webp" alt="" loading="lazy" />
+			<img src="./assets/web/lokum-coconut.webp" alt="" loading="lazy" />
+			<img src="./assets/web/bit-petal.webp" alt="" loading="lazy" data-bit />
+			<img src="./assets/web/bit-pistachio.webp" alt="" loading="lazy" data-bit />
+			<img src="./assets/web/bit-rosebud.webp" alt="" loading="lazy" data-bit />
+			<img id="favicon-loukoum" src="./assets/web/favicon-lokum.png" alt="" loading="lazy" />
+			<img id="cursor-loukoum" src="./assets/web/cursor-lokum.png" alt="" loading="lazy" />
+			<img id="cursor-loukoum-hover" src="./assets/web/cursor-lokum-hover.png" alt="" loading="lazy" />
+		</div>
+	</body>
+</html>

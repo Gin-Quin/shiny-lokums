@@ -1,0 +1,971 @@
+/*
+ * The loukoum mode: the same page, dipped in sugar.
+ * Everything here is scoped to `:root[data-loukoum]`, and mostly overrides the tokens of `styles.css`.
+ * In the light theme it is a candy shop; in the dark theme, the night of the thousand and one loukoums.
+ */
+
+:root[data-loukoum] {
+	--orange: #ff9838;
+	--red: #ff5a4f;
+	--pink: #ff3d8b;
+	--purple: #b14cff;
+	--violet: #8a4dff;
+	--cyan: #2fc4f2;
+	--yellow: #ffd23f;
+	--green: #7cc242;
+	--gradient: linear-gradient(100deg, #ff3d8b, #ff7a59 50%, #ffc23f);
+
+	--background: light-dark(#fff0f6, #2a0f3a);
+	--surface: light-dark(#ffffff, #3b1750);
+	--surface-2: light-dark(#ffe0ec, #4c2166);
+	--text: light-dark(#4d0f33, #ffeaf4);
+	--muted: light-dark(#8a3b62, #e6b9d9);
+	--subtle: light-dark(#b0708f, #b98bb0);
+	--border: light-dark(#4d0f33, #ffb3d6);
+	--border-strong: light-dark(#4d0f33, #ffb3d6);
+	--ink: light-dark(#4d0f33, #14051d);
+	--shadow-color: var(--ink);
+	--glow-opacity: light-dark(0.55, 0.3);
+
+	--font: "Fredoka", ui-rounded, system-ui, sans-serif;
+	--display: "Bagel Fat One", "Fredoka", system-ui, sans-serif;
+	--radius: 30px;
+}
+
+:root[data-loukoum] .only-loukoum {
+	display: revert !important;
+}
+
+/* powdered sugar sprinkled all over the page */
+:root[data-loukoum] body {
+	background-image: radial-gradient(light-dark(#ffcfe0, #4c2166) 2.5px, transparent 3px);
+	background-size: 30px 30px;
+}
+
+:root[data-loukoum] body::after {
+	display: none;
+}
+
+:root[data-loukoum] :is(h1, h2, h3) {
+	font-weight: 400;
+	letter-spacing: 0;
+	line-height: 1.12;
+}
+
+:root[data-loukoum] ::selection {
+	background: var(--yellow);
+	color: #4d0f33;
+}
+
+/* the accent word becomes a sticker */
+:root[data-loukoum] .accent {
+	display: inline-block;
+	padding: 0 0.18em;
+	rotate: -2deg;
+	font-family: var(--display);
+	font-style: normal;
+	font-size: 1em;
+	letter-spacing: 0;
+	background: none;
+	color: var(--pink);
+	-webkit-text-stroke: 0.035em var(--ink);
+	paint-order: stroke fill;
+	text-shadow: 0.06em 0.06em 0 var(--ink);
+	animation: wobble 3.2s ease-in-out infinite;
+}
+
+@keyframes wobble {
+	50% {
+		rotate: 2deg;
+		scale: 1.03;
+	}
+}
+
+/* ─── Candy components: thick outlines and hard shadows ── */
+
+:root[data-loukoum] :is(.card, .language, .project, .stop-card, .stats, .nav, .viz, .kicker) {
+	border: 3px solid var(--border);
+	box-shadow: 6px 6px 0 var(--ink);
+}
+
+:root[data-loukoum] .viz {
+	box-shadow: none;
+}
+
+:root[data-loukoum] .stats > div + div {
+	border-left-width: 3px;
+}
+
+:root[data-loukoum] .glow:hover {
+	border-color: var(--border);
+	box-shadow: 10px 10px 0 var(--ink);
+	animation: jelly 0.7s both;
+}
+
+@keyframes jelly {
+	0% {
+		scale: 1 1;
+	}
+
+	25% {
+		scale: 1.04 0.95;
+	}
+
+	50% {
+		scale: 0.97 1.04;
+	}
+
+	75% {
+		scale: 1.02 0.98;
+	}
+
+	100% {
+		scale: 1 1;
+		translate: -3px -3px;
+	}
+}
+
+:root[data-loukoum] .button {
+	border: 3px solid var(--ink);
+	box-shadow: 4px 4px 0 var(--ink);
+	font-weight: 600;
+}
+
+:root[data-loukoum] .button.primary {
+	background: var(--pink);
+}
+
+:root[data-loukoum] .button.primary:nth-child(odd) {
+	background: var(--pink);
+}
+
+:root[data-loukoum] .button.ghost {
+	background: var(--yellow);
+	color: #4d0f33;
+}
+
+:root[data-loukoum] .button:hover {
+	transform: translate(-2px, -3px) rotate(-1.5deg);
+	box-shadow: 7px 8px 0 var(--ink);
+}
+
+:root[data-loukoum] .button:active {
+	transform: translate(3px, 3px);
+	box-shadow: 0 0 0 var(--ink);
+}
+
+:root[data-loukoum] .tags li {
+	border: 2px solid var(--border);
+	background: var(--surface-2);
+	color: var(--text);
+	font-family: var(--font);
+	font-weight: 600;
+}
+
+:root[data-loukoum] .tags li:nth-child(3n + 1) {
+	background: light-dark(#ffd9e8, #6b2a66);
+}
+
+:root[data-loukoum] .tags li:nth-child(3n + 2) {
+	background: light-dark(#e3f5c8, #3e5a2a);
+}
+
+:root[data-loukoum] .tags li:nth-child(3n) {
+	background: light-dark(#fff1b8, #6b5320);
+}
+
+:root[data-loukoum] .eyebrow {
+	font-family: var(--font);
+	font-weight: 600;
+	color: var(--text);
+}
+
+:root[data-loukoum] .eyebrow b {
+	border: 2px solid var(--ink);
+	background: var(--yellow);
+	color: #4d0f33;
+	rotate: -4deg;
+}
+
+:root[data-loukoum] .nav {
+	background: var(--surface);
+	backdrop-filter: none;
+}
+
+:root[data-loukoum] .nav-links a {
+	color: var(--text);
+	font-weight: 600;
+}
+
+:root[data-loukoum] .nav-links a:hover {
+	background: var(--yellow);
+	color: #4d0f33;
+	rotate: -3deg;
+}
+
+/* ─── Hero ─────────────────────────────────────────────── */
+
+:root[data-loukoum] .hero-grid {
+	display: none;
+}
+
+:root[data-loukoum] .hero-title {
+	font-size: clamp(2.4rem, 0.9rem + 4.2vw, 4.5rem);
+	gap: 0.12em;
+}
+
+:root[data-loukoum] .selection::before {
+	border: 3px dashed var(--border);
+	background: none;
+	margin: -6px -2px;
+	border-radius: 18px;
+}
+
+:root[data-loukoum] .selection-cursor {
+	-webkit-text-stroke: 0;
+	text-shadow: none;
+}
+
+:root[data-loukoum] .selection-cursor b {
+	border: 2px solid var(--ink);
+	background: var(--yellow);
+	color: #4d0f33;
+	font-family: var(--font);
+}
+
+:root[data-loukoum] .selection-cursor::before {
+	background: var(--ink);
+}
+
+:root[data-loukoum] .kicker {
+	background: var(--surface);
+	font-family: var(--font);
+	font-weight: 600;
+	color: var(--text);
+	box-shadow: 4px 4px 0 var(--ink);
+}
+
+/* links and buttons get a pistachio loukoum, tilted, instead of the pointer */
+:root[data-loukoum] :is(a[href], button, .portrait) {
+	cursor: var(--hover-cursor);
+}
+
+/* the prince, in a ring of candy cane */
+/* Both faces turn together, so the visible image changes only when the coin is edge-on. */
+:root[data-loukoum] .portrait-faces {
+	transform: rotateY(180deg);
+}
+
+:root[data-loukoum] .portrait::before {
+	inset: -22px;
+	background: repeating-conic-gradient(from var(--angle), var(--pink) 0 15deg, #fff 0 30deg);
+	mask: radial-gradient(farthest-side, transparent calc(100% - 20px), #000 calc(100% - 19px));
+	outline: 4px solid var(--ink);
+	outline-offset: -4px;
+	border-radius: 50%;
+	animation-duration: 14s;
+}
+
+:root[data-loukoum] .portrait::after {
+	background: conic-gradient(from var(--angle), var(--pink), var(--yellow), var(--green), var(--pink));
+}
+
+:root[data-loukoum] .portrait.show {
+	animation: boing 0.9s var(--ease);
+}
+
+@keyframes boing {
+	0% {
+		scale: 1;
+		rotate: 0deg;
+	}
+
+	30% {
+		scale: 1.12 0.88;
+		rotate: -8deg;
+	}
+
+	55% {
+		scale: 0.92 1.1;
+		rotate: 6deg;
+	}
+
+	78% {
+		scale: 1.04 0.97;
+		rotate: -2deg;
+	}
+
+	100% {
+		scale: 1;
+		rotate: 0deg;
+	}
+}
+
+:root[data-loukoum] .bubble {
+	display: block;
+	position: absolute;
+	left: 50%;
+	top: -4%;
+	z-index: 3;
+	width: max-content;
+	max-width: min(22rem, 84vw);
+	padding: 0.7rem 1.1rem;
+	border-radius: 22px;
+	border: 3px solid var(--ink);
+	background: #fff;
+	color: #4d0f33;
+	box-shadow: 5px 5px 0 var(--ink);
+	font-weight: 600;
+	line-height: 1.35;
+	text-align: center;
+	translate: -50% -100%;
+	opacity: 0;
+	pointer-events: none;
+}
+
+:root[data-loukoum] .bubble.show {
+	animation: speak 4.2s var(--ease) both;
+}
+
+@keyframes speak {
+	0% {
+		opacity: 0;
+		scale: 0.4;
+	}
+
+	8%,
+	88% {
+		opacity: 1;
+		scale: 1;
+	}
+
+	100% {
+		opacity: 0;
+		scale: 0.8;
+	}
+}
+
+:root[data-loukoum] .orbit {
+	border: 3px dotted var(--pink);
+}
+
+:root[data-loukoum] .orbit i {
+	border-radius: 50%;
+	border: 2px solid var(--ink);
+	background: var(--yellow);
+	box-shadow: none;
+}
+
+/* the glass cubes turn into what they always were: loukoums */
+:root[data-loukoum] .cube {
+	display: none;
+}
+
+:root[data-loukoum] .floater .lokum {
+	display: block;
+	animation: sway 4s ease-in-out infinite alternate;
+	animation-delay: var(--delay);
+	filter: drop-shadow(4px 6px 0 rgb(77 15 51 / 0.25));
+}
+
+@keyframes sway {
+	from {
+		rotate: -14deg;
+	}
+
+	to {
+		rotate: 14deg;
+	}
+}
+
+:root[data-loukoum] .stats {
+	background: var(--surface);
+	backdrop-filter: none;
+}
+
+:root[data-loukoum] .stats dt {
+	font-family: var(--display);
+	font-weight: 400;
+	letter-spacing: 0;
+}
+
+:root[data-loukoum] .stats dt b {
+	background: none;
+	color: var(--pink);
+}
+
+:root[data-loukoum] .stats dd {
+	color: var(--text);
+	font-weight: 500;
+}
+
+/* ─── Marquee, as a ribbon ─────────────────────────────── */
+
+:root[data-loukoum] .marquee {
+	margin-block: 1rem;
+	padding: 0.9rem 0;
+	border-block: 3px solid var(--ink);
+	background: var(--pink);
+	mask-image: none;
+	rotate: -1.2deg;
+	scale: 1.03;
+}
+
+:root[data-loukoum] .marquee span {
+	font-family: var(--display);
+	font-size: 1.3rem;
+	color: #fff;
+	-webkit-text-stroke: 1px #4d0f33;
+	paint-order: stroke fill;
+}
+
+/* between two flavours, a tiny loukoum: a cube of colour under a layer of sugar */
+:root[data-loukoum] .marquee span::after {
+	width: 20px;
+	height: 20px;
+	rotate: 12deg;
+	border-radius: 6px;
+	border: 2.5px solid #4d0f33;
+	background: linear-gradient(#fff 0 32%, var(--yellow) 0);
+}
+
+:root[data-loukoum] .marquee span:nth-child(odd)::after {
+	rotate: -10deg;
+	background: linear-gradient(#fff 0 32%, var(--green) 0);
+}
+
+/* ─── Sections ─────────────────────────────────────────── */
+
+/* the whole page wobbles with the scroll, like jelly on a plate */
+:root[data-loukoum] main > .section > .container {
+	transform: skewY(calc(var(--jelly, 0) * 2.2deg));
+}
+
+:root[data-loukoum] .section h2 .accent {
+	font-size: 1em;
+}
+
+:root[data-loukoum] .section-header > p:last-child,
+:root[data-loukoum] .lead {
+	color: var(--text);
+	font-weight: 500;
+}
+
+:root[data-loukoum] .viz {
+	border-width: 3px;
+	background-image: radial-gradient(light-dark(#ffb8d2, #7a3a8f) 2px, transparent 2.5px);
+}
+
+:root[data-loukoum] .viz-terminal {
+	background-color: #2a0f3a;
+	border-color: var(--border);
+}
+
+:root[data-loukoum] .card:nth-child(odd) {
+	rotate: -0.6deg;
+}
+
+:root[data-loukoum] .card:nth-child(even) {
+	rotate: 0.6deg;
+}
+
+:root[data-loukoum] .card-cta {
+	background: var(--yellow);
+	color: #4d0f33;
+}
+
+:root[data-loukoum] .card-cta p {
+	color: #4d0f33;
+}
+
+:root[data-loukoum] .language header p {
+	color: var(--pink);
+	font-family: var(--font);
+	font-weight: 600;
+	font-size: 0.95rem;
+}
+
+:root[data-loukoum] .language-mark {
+	rotate: -6deg;
+}
+
+:root[data-loukoum] pre {
+	border: 3px solid var(--ink);
+	background: #2a0f3a;
+}
+
+/* ─── Projects: every box has already been tasted ──────── */
+
+:root[data-loukoum] .project:nth-child(odd) {
+	rotate: -0.7deg;
+}
+
+:root[data-loukoum] .project:nth-child(even) {
+	rotate: 0.7deg;
+}
+
+:root[data-loukoum] .shot,
+:root[data-loukoum] .featured .shot {
+	border-color: var(--border);
+	border-width: 3px;
+}
+
+/* a bite taken out of the corner of each screenshot */
+:root[data-loukoum] .shot {
+	mask:
+		radial-gradient(circle 34px at calc(100% - 4px) calc(100% - 26px), transparent 98%, #000),
+		radial-gradient(circle 30px at calc(100% - 46px) calc(100% - 2px), transparent 98%, #000),
+		radial-gradient(circle 26px at calc(100% - 92px) 100%, transparent 98%, #000);
+	mask-composite: intersect;
+}
+
+:root[data-loukoum] .chrome {
+	background: var(--surface);
+	border-bottom: 3px solid var(--border);
+	backdrop-filter: none;
+}
+
+:root[data-loukoum] .chrome i {
+	background: var(--pink);
+}
+
+:root[data-loukoum] .chrome i:nth-child(2) {
+	background: var(--yellow);
+}
+
+:root[data-loukoum] .chrome i:nth-child(3) {
+	background: var(--green);
+}
+
+:root[data-loukoum] .project-body header p {
+	font-family: var(--font);
+	font-weight: 600;
+}
+
+:root[data-loukoum] .badge {
+	border: 2px solid var(--ink);
+	background: var(--yellow);
+	color: #4d0f33 !important;
+	rotate: -1.5deg;
+}
+
+/* ─── Timeline: a river of rose syrup ──────────────────── */
+
+:root[data-loukoum] .thread-track {
+	stroke: var(--border);
+	stroke-width: 3;
+	stroke-dasharray: 1 12;
+}
+
+:root[data-loukoum] .thread-line {
+	stroke: var(--pink);
+	stroke-width: 12;
+	filter: drop-shadow(3px 3px 0 var(--ink));
+}
+
+/* the loukoum rolls along the syrup as the page scrolls */
+:root[data-loukoum] .traveler img {
+	top: -32px;
+	left: -32px;
+	width: 64px;
+	rotate: var(--roll, 0deg);
+	animation: none;
+	filter: drop-shadow(3px 4px 0 rgb(77 15 51 / 0.35));
+}
+
+:root[data-loukoum] .stop-dot {
+	width: 22px;
+	height: 22px;
+	border: 3px solid var(--ink);
+	border-radius: 7px;
+	background: #fff;
+}
+
+:root[data-loukoum] .stop.reached .stop-dot {
+	border-color: var(--ink);
+	background: var(--yellow);
+	box-shadow: none;
+	scale: 1.3;
+}
+
+:root[data-loukoum] .stop-year {
+	display: inline-block;
+	padding: 1px 10px;
+	border-radius: 999px;
+	border: 2px solid var(--ink);
+	background: var(--yellow);
+	color: #4d0f33;
+	font-family: var(--font);
+	rotate: -2deg;
+}
+
+:root[data-loukoum] .stop.reached .stop-card {
+	animation: jelly 0.8s 0.1s both;
+}
+
+:root[data-loukoum] .stop.mini .stop-card {
+	border-style: dashed;
+	background: var(--surface);
+}
+
+:root[data-loukoum] .stop.detour .stop-card {
+	border-style: dashed;
+}
+
+:root[data-loukoum] .stop.detour h3 {
+	font-family: var(--display);
+	font-style: normal;
+	font-size: 1.4rem;
+}
+
+:root[data-loukoum] .stamp {
+	border: 2.5px dashed var(--ink);
+	background: var(--yellow);
+}
+
+:root[data-loukoum] .tower {
+	fill: var(--pink);
+	stroke: #4d0f33;
+	stroke-width: 1.2;
+	stroke-linejoin: round;
+}
+
+:root[data-loukoum] .sparkle {
+	fill: #fff;
+	stroke: #4d0f33;
+	stroke-width: 0.8;
+}
+
+:root[data-loukoum] .stop.major .stop-card {
+	border-color: var(--border);
+	background: var(--surface);
+	box-shadow: 8px 8px 0 var(--pink);
+}
+
+:root[data-loukoum] .stop.finale .stop-card {
+	border: 0;
+	box-shadow: none;
+	animation: none;
+}
+
+/* ─── Contact, and the palace at the end of the road ───── */
+
+:root[data-loukoum] .contact {
+	border-top: 3px solid var(--ink);
+}
+
+:root[data-loukoum] .footer {
+	border-top: 0;
+	background: light-dark(#ffd9e8, #1d0a2a);
+	color: var(--text);
+	font-weight: 500;
+}
+
+:root[data-loukoum] .palace {
+	position: relative;
+	margin-top: -1px;
+	background: var(--background);
+	overflow: hidden;
+}
+
+/* on narrow screens the palace keeps a decent size, and is cropped on both sides instead */
+:root[data-loukoum] .palace > img {
+	--width: max(100%, 780px);
+	width: var(--width);
+	max-width: none;
+	margin: clamp(-18rem, -16vw, -4rem) 0 0 calc((100% - var(--width)) / 2);
+}
+
+/* a parade of loukoums hops in front of the palace */
+:root[data-loukoum] .parade {
+	position: absolute;
+	inset: auto 0 0;
+	display: flex;
+	gap: 1.4rem;
+	width: max-content;
+	animation: parade 26s linear infinite;
+}
+
+:root[data-loukoum] .parade img {
+	width: clamp(46px, 6vw, 84px);
+	animation: hop 0.62s ease-in-out infinite alternate;
+	filter: drop-shadow(3px 4px 0 rgb(77 15 51 / 0.3));
+}
+
+:root[data-loukoum] .parade img:nth-child(2n) {
+	animation-delay: -0.2s;
+}
+
+:root[data-loukoum] .parade img:nth-child(3n) {
+	animation-delay: -0.41s;
+}
+
+@keyframes parade {
+	from {
+		translate: -100% 0;
+	}
+
+	to {
+		translate: 100vw 0;
+	}
+}
+
+@keyframes hop {
+	from {
+		translate: 0 0;
+		scale: 1.08 0.9;
+	}
+
+	to {
+		translate: 0 -44px;
+		scale: 0.96 1.06;
+		rotate: 12deg;
+	}
+}
+
+/* ─── The dock: counter and toggle ─────────────────────── */
+
+:root[data-loukoum] .loukoum-toggle {
+	border: 3px solid var(--ink);
+	background: var(--surface);
+	backdrop-filter: none;
+	box-shadow: 4px 4px 0 var(--ink);
+}
+
+:root[data-loukoum] .loukoum-toggle img {
+	animation: spin 3s linear infinite;
+}
+
+:root[data-loukoum] .eaten:not([hidden]) {
+	display: flex;
+	align-items: center;
+	gap: 0.4rem;
+	padding: 0.25rem 0.8rem;
+	border-radius: 999px;
+	border: 3px solid var(--ink);
+	background: var(--yellow);
+	color: #4d0f33;
+	box-shadow: 3px 3px 0 var(--ink);
+	font-size: 0.9rem;
+	font-weight: 600;
+}
+
+:root[data-loukoum] .eaten b {
+	font-family: var(--display);
+	font-weight: 400;
+	font-size: 1.15rem;
+}
+
+:root[data-loukoum] .toast {
+	display: block;
+	position: fixed;
+	left: 50%;
+	bottom: 1.6rem;
+	z-index: 80;
+	width: max-content;
+	max-width: min(40rem, 92vw);
+	padding: 0.8rem 1.4rem;
+	border-radius: 26px;
+	border: 3px solid var(--ink);
+	background: #fff;
+	color: #4d0f33;
+	box-shadow: 5px 5px 0 var(--ink);
+	font-weight: 600;
+	text-align: center;
+	translate: -50% 180%;
+	transition: translate 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+	pointer-events: none;
+}
+
+:root[data-loukoum] .toast.show {
+	translate: -50% 0;
+}
+
+/* ─── Flying sweets ────────────────────────────────────── */
+
+.sweets {
+	position: fixed;
+	inset: 0;
+	z-index: 60;
+	overflow: hidden;
+	pointer-events: none;
+}
+
+.sweet {
+	position: absolute;
+	top: 0;
+	left: 0;
+	max-width: none;
+	pointer-events: auto;
+	user-select: none;
+	-webkit-user-drag: none;
+	will-change: transform;
+}
+
+.sweet.bit {
+	pointer-events: none;
+}
+
+.sweet.gobbled {
+	pointer-events: none;
+	animation: gobble 0.32s ease-out forwards;
+}
+
+@keyframes gobble {
+	40% {
+		scale: 1.5;
+		opacity: 1;
+	}
+
+	to {
+		scale: 0;
+		opacity: 0;
+	}
+}
+
+.miam {
+	position: absolute;
+	translate: -50% -50%;
+	font-family: "Bagel Fat One", sans-serif;
+	font-size: 1.6rem;
+	color: #fff;
+	-webkit-text-stroke: 5px #4d0f33;
+	paint-order: stroke fill;
+	white-space: nowrap;
+	animation: miam 0.9s ease-out forwards;
+}
+
+@keyframes miam {
+	from {
+		scale: 0.4;
+		rotate: -12deg;
+	}
+
+	30% {
+		scale: 1.2;
+	}
+
+	to {
+		translate: -50% -190%;
+		rotate: 8deg;
+		opacity: 0;
+	}
+}
+
+/* a puff of powdered sugar */
+.puff {
+	position: absolute;
+	width: 120px;
+	height: 120px;
+	margin: -60px;
+	border-radius: 50%;
+	background: radial-gradient(circle, #fff 0 12%, transparent 13%) 0 0 / 22px 22px;
+	mask-image: radial-gradient(circle, #000 25%, transparent 70%);
+	animation: puff 0.6s ease-out forwards;
+}
+
+@keyframes puff {
+	from {
+		scale: 0.2;
+		opacity: 1;
+	}
+
+	to {
+		scale: 1.6;
+		opacity: 0;
+	}
+}
+
+/* sugar falling gently over the whole page: two layers, for depth */
+:root[data-loukoum] .sugar {
+	position: fixed;
+	inset: 0;
+	z-index: 55;
+	pointer-events: none;
+	opacity: light-dark(1, 0.75);
+	background-image:
+		radial-gradient(circle, #fff 0 2px, transparent 2.5px), radial-gradient(circle, #fff 0 3px, transparent 3.5px),
+		radial-gradient(circle, #fff 0 1.5px, transparent 2px);
+	background-size:
+		260px 300px,
+		420px 480px,
+		180px 210px;
+	filter: drop-shadow(0 1px 1px light-dark(rgb(77 15 51 / 0.35), transparent));
+	animation: snow 18s linear infinite;
+}
+
+@keyframes snow {
+	from {
+		background-position:
+			0 0,
+			60px 40px,
+			30px 90px;
+	}
+
+	to {
+		background-position:
+			130px 600px,
+			-150px 1000px,
+			120px 720px;
+	}
+}
+
+/* the prince peeks from the edge of the window, now and then */
+:root[data-loukoum] .peeker {
+	position: fixed;
+	right: 0;
+	top: 40%;
+	z-index: 65;
+	translate: 130% 0;
+	rotate: -14deg;
+	transition: translate 0.7s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+:root[data-loukoum] .peeker.out {
+	translate: 34% 0;
+}
+
+:root[data-loukoum] .peeker img {
+	width: 170px;
+	border-radius: 50%;
+	border: 4px solid var(--ink);
+	background: #fff;
+}
+
+:root[data-loukoum] .peeker span {
+	position: absolute;
+	right: 78%;
+	top: 4%;
+	width: max-content;
+	max-width: 14rem;
+	padding: 0.45rem 0.9rem;
+	border-radius: 18px 18px 4px 18px;
+	border: 3px solid var(--ink);
+	background: #fff;
+	color: #4d0f33;
+	box-shadow: 4px 4px 0 var(--ink);
+	font-weight: 600;
+	rotate: 14deg;
+	opacity: 0;
+	transition: opacity 0.3s;
+}
+
+:root[data-loukoum] .peeker.out span {
+	opacity: 1;
+	transition-delay: 0.4s;
+}
+
+/* the sweep that brings the mode in is slower and stickier than the theme's */
+:root[data-loukoum]::view-transition-new(root) {
+	filter: drop-shadow(0 0 0 12px #ff3d8b);
+}
+
+@media (max-width: 760px) {
+	:root[data-loukoum] .peeker img {
+		width: 120px;
+	}
+
+	:root[data-loukoum] .toast {
+		bottom: 4.6rem;
+	}
+}
