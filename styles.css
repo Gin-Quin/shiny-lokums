@@ -696,7 +696,8 @@ main {
 	height: 100%;
 	transform-style: preserve-3d;
 	transform: rotateY(0deg);
-	transition: transform 0.8s cubic-bezier(0.65, 0, 0.35, 1);
+	/* the coin waits for the page sweep (900ms) to be over: it flips in the new page, under its floaters */
+	transition: transform 0.8s cubic-bezier(0.65, 0, 0.35, 1) 1s;
 }
 
 .portrait img {
@@ -714,24 +715,6 @@ main {
 	background: #fff;
 	object-position: 50% 18%;
 	transform: rotateY(180deg);
-}
-
-/* Keep the flip live instead of freezing it inside the page sweep's root snapshot. */
-.portrait.flipping {
-	view-transition-name: portrait;
-}
-
-::view-transition-group(portrait) {
-	animation: none;
-}
-
-::view-transition-old(portrait) {
-	display: none;
-}
-
-::view-transition-new(portrait) {
-	animation: none;
-	mix-blend-mode: normal;
 }
 
 /* a ring of light turning around the face */
@@ -2620,6 +2603,7 @@ pre .c {
 		animation-delay: 0s !important;
 		animation-iteration-count: 1 !important;
 		transition-duration: 0.01ms !important;
+		transition-delay: 0s !important;
 		scroll-behavior: auto !important;
 	}
 }

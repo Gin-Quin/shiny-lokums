@@ -622,13 +622,10 @@ toggle.addEventListener("click", async () => {
 	const url = new URL(location.href)
 	url.searchParams.set("mode", on ? "loukoum" : "serieux")
 	history.pushState(null, "", url)
-	// Give the portrait its own live layer while the rest of the page sweeps into the new mode.
-	portrait.classList.add("flipping")
 	toggle.disabled = true
 	try {
 		await sweep(toggle, () => setLoukoum(on), 900)
 	} finally {
-		portrait.classList.remove("flipping")
 		toggle.disabled = false
 	}
 	if (!on) return
